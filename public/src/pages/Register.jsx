@@ -79,10 +79,10 @@ function Register() {
                 <img src={Logo} alt="Logo" />
                 <h1>Snappy</h1>
             </div>
-            <input type="text" placeholder='Username' name='username' onChange={(e)=>{
+            <input type="text" autoComplete='new-password' placeholder='Username' name='username' onChange={(e)=>{
                 handleChange(e);
             }} />
-            <input type="email" placeholder='Email' name='email' onChange={(e)=>{
+            <input type="email" autoComplete='new-password' placeholder='Email' name='email' onChange={(e)=>{
                 handleChange(e);
             }} />
             <input type="password" placeholder='Password' name='password' onChange={(e)=>{

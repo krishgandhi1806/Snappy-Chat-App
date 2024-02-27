@@ -6,6 +6,12 @@ import {BiPowerOff} from 'react-icons/bi';
 function Logout() {
     const navigate= useNavigate();
     const handleClick= async ()=>{
+        // await axios.post("http://localhost:5000/api/auth/logout", {}, {
+        //     headers:{
+        //         id: localStorage.getItem("id"),
+        //         currentPassword: localStorage.getItem("password")
+        //     }
+        // })
         localStorage.clear();
         navigate("/login");
     }

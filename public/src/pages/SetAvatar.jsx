@@ -56,7 +56,8 @@ function SetAvatar() {
         const data = [];
         const fetchData = async () => {
           for (let i = 0; i < 4; i++) {
-            const response = await axios.get(`${api}/${Math.round(Math.random() * 1000)}/?apikey=ZJNDPvjFuQmXpl`);
+            const response = await axios.get(`${api}${Math.round(Math.random() * 1000)}/?apikey=ZJNDPvjFuQmXpl`);
+            // console.log(response);
             const buffer = Buffer.from(response.data);
             data.push(buffer.toString("base64"));
           }

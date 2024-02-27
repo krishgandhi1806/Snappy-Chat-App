@@ -9,6 +9,7 @@ import {loginRoute} from '../utils/APIRoutes'
 
 function Login() {
     const navigate= useNavigate();
+    const [newPassword, setNewPassword]= useState("");
     const [values, setValues] =useState({
         username: "",
         confirmPassword: ""
@@ -38,6 +39,9 @@ function Login() {
         }else if(username.length===""){
             toast.error("Email and password is required", toastOptions);
             return false;
+        }else if(password===newPassword){
+            toast.error("Old password cannot be reused!", toastOptions);
+            return false;
         }
         return true;
     }
@@ -46,15 +50,18 @@ function Login() {
         event.preventDefault();
         if(handleValidation()){
             const {password, username}= values;
+            // console.log(newPassword);
             const {data}= await axios.post(loginRoute, {
                 username,
-                password
+                password,
+                newPassword
             });
+            // console.log(data);
             if(data.status===false){
                 toast.error(data.msg, toastOptions)
             }
             if(data.status===true){
-                localStorage.setItem('chat-app-user', JSON.stringify(data.user));
+                localStorage.setItem('chat-app-user', JSON.stringify(data.newUser));
                 navigate("/");
             }
         }
@@ -63,7 +70,7 @@ function Login() {
   return (
     <>
     <FormContainer>
-        <form onSubmit={(event)=>{
+        <form autoComplete='off' onSubmit={(event)=>{
             handleSubmit(event)
         }}>
             <div className="brand">
@@ -75,6 +82,10 @@ function Login() {
             }} min="3" />
             <input type="password" placeholder='Password' name='password' onChange={(e)=>{
                 handleChange(e);
+            }} />
+            <span>Create a new password</span>
+            <input type="password" placeholder=' Set a New password' name='newPassword' onChange={(e)=>{
+                setNewPassword(e.target.value);
             }} />
 
             <button type='submit'>Login</button>

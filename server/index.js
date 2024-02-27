@@ -10,6 +10,14 @@ const PORT = process.env.PORT || 5000;
 
 app.use(cors());
 app.use(express.json());
+app.use((req, res, next) => {
+  if (!req.user) {
+      res.header('Cache-Control', 'private, no-cache, no-store, must-revalidate');
+      res.header('Expires', '-1');
+      res.header('Pragma', 'no-cache');
+  }
+  next();
+});
 require("dotenv").config();
 app.use("/api/auth", userRoutes);
 app.use("/api/messages", messageRoute);
@@ -29,7 +37,7 @@ const server = app.listen(PORT, () => {
 
 const io = socket(server, {
   cors: {
-    origin: 'http://localhost:3000',
+    origin: 'http://localhost:3000' ,
     methods: ['GET', 'POST'],
     credentials: true
   }

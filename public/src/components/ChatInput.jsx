@@ -27,6 +27,7 @@ function ChatInput({handleSendMsg}) {
         }
     }
 
+
     return (
         <Container>
             <div className="button-container">
@@ -39,7 +40,9 @@ function ChatInput({handleSendMsg}) {
             </div>
             <form className="input-container" onSubmit={(e)=>sendChat(e)}>
                 <input type="text" placeholder="Type your message here" value={msg} onChange={(e)=>{
-                    setMsg(e.target.value);
+                    // console.log(e.target.value);
+
+                    setMsg(e.target.value.replace(/\d/g, "*"));
                 }} />
                 <button className="submit">
                     <IoMdSend></IoMdSend></button>

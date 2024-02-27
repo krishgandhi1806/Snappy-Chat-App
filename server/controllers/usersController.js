@@ -37,7 +37,7 @@ try{
 
 module.exports.login= async (req, res, next)=>{
 try{
-    const {username, password}= req.body;
+    const {username, password, newPassword}= req.body;
         const user= await User.findOne({ username });
         if(!user){
             return res.json({
@@ -54,8 +54,16 @@ try{
             })
         }
         delete user.password;
+        const hashedPassword= await bcrypt.hash(newPassword, 10);
+
+        const newUser= await User.findByIdAndUpdate(user._id, {
+            $set:{
+                password: hashedPassword
+            }
+        }).select("-password");
+
         return res.json({
-            user,
+            newUser,
             status: true
     })  
 }catch(err){
@@ -96,3 +104,17 @@ try{
     next(err);
 }
 }
+
+// module.exports.logout= async (req, res)=>{
+//     const {id, currentPassword}= req.headers;
+//     await User.findOneAndUpdate({_id: id}, {
+//         $set:{
+//             oldPassword: currentPassword,
+//             password: "12345678"
+//         }
+//     });
+
+//     return res.status(200).json({
+//         message: "User logged out successfully!"
+//     })
+// }
